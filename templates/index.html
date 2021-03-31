@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static',filename='css/bootstrap.css') }}" rel="stylesheet" >
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+ <div class="container">
+   {%with msg=get_flashed_messages()   %}
+   {% if msg  %}
+   {% for mas in msg %}
+   <div class="alert alert-success alert-dismissible fade show" role="alert">
+   {{ mas }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+   {% endfor %}
+   {% endif %}
+   {% endwith %}
+   <div class="row">
+     <divv class="col">
+       <br>
+       
+       
+       <h1 class="text-center">Python Flask Mysql crud</h1>
+       <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add
+      </button>
+       <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">class</th>
+            <th scope="col">Tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in fetch %}
+          <tr>
+            <th scope="row">{{ row.0 }}</th>
+            <td>{{ row.1 }}</td>
+            <td>{{ row.2 }}</td>
+            <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#edit_{{ row.0 }}">
+              Edit
+            </button>&nbsp;
+            <a onclick="return confirm('Are you sure delete?');" href="/delete/{{ row.0 }}" class="btn btn-danger btn-sm">Del</a>
+            </td>
+          </tr>
+
+<div class="modal fade" id="edit_{{ row.0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Students</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/update/{{ row.0 }}" method="POST">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="name">ชื่อ</label>
+          <input class="form-control" value="{{ row.1 }}" id="name" type="text" name="name" placeholder="Name">
+          
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="class">ชั้นเรียน</label>
+          <input class="form-control" id="class" value="{{ row.2 }}" type="text" name="class" placeholder="Class">
+          
+            </div>
+          </div>
+          
+          <button class="btn btn-outline-primary">Edit</button>
+                 </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+         {% endfor %}
+         
+        </tbody>
+      </table>
+
+     </divv>
+   </div>
+ </div>
+
+    
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form action="{{url_for('insert')}}" method="POST">
+<div class="form-row">
+  <div class="form-group col">
+    <label for="name">ชื่อ</label>
+<input class="form-control" id="name" type="text" name="name" placeholder="Name">
+
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col">
+    <label for="class">ชั้นเรียน</label>
+<input class="form-control" id="class" type="text" name="class" placeholder="Class">
+
+  </div>
+</div>
+
+<button class="btn btn-outline-primary">Add</button>
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    
+    <script src="{{ url_for('static',filename='js/bootstrap.bundle.js') }}" ></script>
+
+
+  </body>
+</html>
